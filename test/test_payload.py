@@ -57,6 +57,27 @@ def test_payload():
         'extra': 'something'
     }
 
+def test_time_sensitive_payload():
+    payload = Payload(
+        alert='my_alert', badge=2, sound='chime',
+        content_available=True, mutable_content=True,
+        category='my_category', url_args='args', time_sensitive=True,
+        custom={'extra': 'something'}, thread_id='42')
+    assert payload.dict() == {
+        'aps': {
+            'alert': 'my_alert',
+            'badge': 2,
+            'sound': 'chime',
+            'content-available': 1,
+            'mutable-content': 1,
+            'thread-id': '42',
+            'category': 'my_category',
+            'url-args': 'args',
+            'interruption-level': 'time-sensitive'
+        },
+        'extra': 'something'
+    }
+
 
 def test_payload_with_payload_alert(payload_alert):
     payload = Payload(
