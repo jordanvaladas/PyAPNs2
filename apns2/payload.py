@@ -79,6 +79,8 @@ class Payload(object):
             thread_id: Optional[str] = None,
             content_available: bool = False,
             mutable_content: bool = False,
+            time_sensitive: bool = False
+
     ) -> None:
         self.alert = alert
         self.badge = badge
@@ -89,6 +91,7 @@ class Payload(object):
         self.custom = custom
         self.mutable_content = mutable_content
         self.thread_id = thread_id
+        self.time_sensitive = time_sensitive
 
     def dict(self) -> Dict[str, Any]:
         result = {
@@ -116,5 +119,7 @@ class Payload(object):
             result['aps']['url-args'] = self.url_args
         if self.custom is not None:
             result.update(self.custom)
+        if self.time_sensitive:
+            result['aps']['interruption-level'] = 'time-sensitive'
 
         return result
